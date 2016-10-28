@@ -1,8 +1,15 @@
 
+![效果图](http://upload-images.jianshu.io/upload_images/2926059-9ffea04eb6972043.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+### 方法一
+
+
+```objective-c
+
+
 [self.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
     [self.navigationBar setShadowImage:[self imageWithColor:[UIColor redColor] size:CGSizeMake([UIScreen mainScreen].bounds.size.width, 0.5)]];
-
-#pragma mark - public methods
+    
 - (UIImage *)imageWithColor:(UIColor *)color size:(CGSize)size {
     if (!color || size.width <= 0 || size.height <= 0) return nil;
     CGRect rect = CGRectMake(0.0f, 0.0f, size.width, size.height);
@@ -14,7 +21,11 @@
     UIGraphicsEndImageContext();
     return image;
 }
+
+
 ```
+
+
 > 此方法是现在大部分博客中有介绍的，不过有缺陷。如果 `self.navigationBar.translucent = YES;`则`navigationbar`透明了。有时我们又不得不设`self.navigationBar.translucent = YES;`例如使用`UISearchController`做通讯录时。其中的坑可以看我这篇博文介绍[iOS navigationBar translucent 属性](http://www.jianshu.com/p/5271c51e0b98)。
 
 ### 方法二
@@ -25,7 +36,9 @@
 
 2. 代码展示
 
+
 ```objective-c
+
  //先查看View层次结构
     NSLog(@"Navigationbar recursiveDescription:\n%@",[self.navigationBar performSelector:@selector(recursiveDescription)]);
     
@@ -73,5 +86,7 @@
 
 ```
 
+###下载链接
+[GitHub]()
 ### 扩展
 **方法二中你可以写个`category`添加和移除**
