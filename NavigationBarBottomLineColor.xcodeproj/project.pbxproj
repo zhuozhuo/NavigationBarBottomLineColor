@@ -431,6 +431,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 64QZ5ZPJ44;
 				INFOPLIST_FILE = NavigationBarBottomLineColor/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Imco.NavigationBarBottomLineColor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -443,6 +444,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 64QZ5ZPJ44;
 				INFOPLIST_FILE = NavigationBarBottomLineColor/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Imco.NavigationBarBottomLineColor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -514,6 +516,7 @@
 				9E5F27551DC2EA6E00C5A370 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		9E5F27561DC2EA6E00C5A370 /* Build configuration list for PBXNativeTarget "NavigationBarBottomLineColorTests" */ = {
 			isa = XCConfigurationList;
@@ -522,6 +525,7 @@
 				9E5F27581DC2EA6E00C5A370 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		9E5F27591DC2EA6E00C5A370 /* Build configuration list for PBXNativeTarget "NavigationBarBottomLineColorUITests" */ = {
 			isa = XCConfigurationList;
@@ -530,6 +534,7 @@
 				9E5F275B1DC2EA6E00C5A370 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

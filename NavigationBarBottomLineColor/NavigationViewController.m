@@ -52,7 +52,16 @@
     //遍历结果可以发现navigationbar 中的type 为_UIBarBackground 名称为 _barBackgroundView
     //遍历_barBackgroundView 中的属性
     unsigned int viewOutCount = 0;
-    UIView *barBackgroundView = [self.navigationBar valueForKey:@"_barBackgroundView"];
+    CGFloat sysytemVersion = [UIDevice currentDevice].systemVersion.floatValue;
+    
+    NSLog(@"version:%f",sysytemVersion);
+    UIView *barBackgroundView = nil;
+    /*iOS 10.0+为`_barBackgroundView`,小于iOS10.0这个属性名称为`_UIBarBackground`.*/
+    if (sysytemVersion<10.0) {
+        barBackgroundView = [self.navigationBar valueForKey:@"_backgroundView"];
+    }else{
+        barBackgroundView = [self.navigationBar valueForKey:@"_barBackgroundView"];
+    }
     if (barBackgroundView) {
         Ivar *viewivars = class_copyIvarList([barBackgroundView class], &viewOutCount);
         for (NSInteger i = 0; i < viewOutCount; ++i) {
