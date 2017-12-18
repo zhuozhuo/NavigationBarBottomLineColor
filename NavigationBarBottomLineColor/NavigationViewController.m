@@ -59,8 +59,10 @@
     /*iOS 10.0+为`_barBackgroundView`,小于iOS10.0这个属性名称为`_UIBarBackground`.*/
     if (sysytemVersion<10.0) {
         barBackgroundView = [self.navigationBar valueForKey:@"_backgroundView"];
-    }else{
+    }else if(sysytemVersion >=10.0 && sysytemVersion < 11){
         barBackgroundView = [self.navigationBar valueForKey:@"_barBackgroundView"];
+    }else{ //>11
+       
     }
     if (barBackgroundView) {
         Ivar *viewivars = class_copyIvarList([barBackgroundView class], &viewOutCount);
@@ -69,26 +71,41 @@
             NSLog(@"_barBackgroundView Propertys:\n name = %s  \n type = %s", ivar_getName(ivar),ivar_getTypeEncoding(ivar));
         }
         free(viewivars);
-    }
-    
-    
-    //找到type为 UIImageView 的属性有_shadowView,_backgroundImageView。因为底部线条可以设置shadowImage，所有我们猜测是_shadowView
-    UIImageView *navigationbarLineView = [barBackgroundView valueForKey:@"_shadowView"];
-    if (navigationbarLineView && [navigationbarLineView isKindOfClass:[UIImageView class]]) {
+        
+        //找到type为 UIImageView 的属性有_shadowView,_backgroundImageView。因为底部线条可以设置shadowImage，所有我们猜测是_shadowView
+        UIImageView *navigationbarLineView = [barBackgroundView valueForKey:@"_shadowView"];
+        if (navigationbarLineView && [navigationbarLineView isKindOfClass:[UIImageView class]]) {
+            UIView *lineView = [[UIView alloc]init];
+            lineView.backgroundColor = [UIColor redColor];
+            lineView.translatesAutoresizingMaskIntoConstraints = NO;
+            [navigationbarLineView addSubview:lineView];
+            
+            //这里我们要用约束不然旋转后有问题
+            [navigationbarLineView addConstraint:[NSLayoutConstraint constraintWithItem:lineView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:navigationbarLineView attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0]];
+            
+            [navigationbarLineView addConstraint:[NSLayoutConstraint constraintWithItem:lineView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:navigationbarLineView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0]];
+            
+            [navigationbarLineView addConstraint:[NSLayoutConstraint constraintWithItem:lineView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:navigationbarLineView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0]];
+            
+            [navigationbarLineView addConstraint:[NSLayoutConstraint constraintWithItem:lineView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:navigationbarLineView attribute:NSLayoutAttributeRight multiplier:1.0 constant:0.0]];
+        }
+    }else{
         UIView *lineView = [[UIView alloc]init];
         lineView.backgroundColor = [UIColor redColor];
         lineView.translatesAutoresizingMaskIntoConstraints = NO;
-        [navigationbarLineView addSubview:lineView];
+        [self.navigationBar addSubview:lineView];
         
-        //这里我们要用约束不然旋转后有问题
-        [navigationbarLineView addConstraint:[NSLayoutConstraint constraintWithItem:lineView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:navigationbarLineView attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0]];
+        UIView *superView = self.navigationBar;
         
-        [navigationbarLineView addConstraint:[NSLayoutConstraint constraintWithItem:lineView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:navigationbarLineView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0]];
+        [superView addConstraint:[NSLayoutConstraint constraintWithItem:lineView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:superView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0]];
         
-        [navigationbarLineView addConstraint:[NSLayoutConstraint constraintWithItem:lineView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:navigationbarLineView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0]];
-        
-        [navigationbarLineView addConstraint:[NSLayoutConstraint constraintWithItem:lineView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:navigationbarLineView attribute:NSLayoutAttributeRight multiplier:1.0 constant:0.0]];
+        [superView addConstraint:[NSLayoutConstraint constraintWithItem:lineView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:superView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0]];
+        [superView addConstraint:[NSLayoutConstraint constraintWithItem:lineView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:superView attribute:NSLayoutAttributeRight multiplier:1.0 constant:0.0]];
+        [lineView addConstraint:[NSLayoutConstraint constraintWithItem:lineView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:1]];
     }
+    
+    
+    
     
     
 }
